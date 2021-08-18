@@ -125,15 +125,16 @@ h1, h2, h3, h4, h5, h6 {
 #header {
   transition: all 0.5s;
   z-index: 997;
-  padding: 15px 0;
+  padding: 15px 15px;
+  background: rgba(164, 162, 158, 0.9);
 }
-
+/* Header background color */
 #header.header-scrolled, #header.header-inner-pages {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(164, 162, 158, 0.9);
 }
 
 #header .logo {
-  font-size: 32px;
+  font-size: 35px;
   margin: 0;
   padding: 0;
   line-height: 1;
@@ -157,6 +158,8 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 #  Get Startet Button
 --------------------------------------------------------------*/
+
+/*
 .get-started-btn {
   color: #fff;
   border-radius: 4px;
@@ -179,7 +182,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 15px;
   }
 }
-
+*/
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
@@ -209,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px 0 10px 30px;
   font-size: 15px;
   font-weight: 600;
-  color: #fff;
+  color: black;
   white-space: nowrap;
   transition: 0.3s;
 }
