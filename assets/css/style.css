@@ -1541,3 +1541,11 @@ section {
   border-right: 3px solid #2980b9;
   font-size: 50px;
 }
+
+
+.video-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
