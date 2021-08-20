@@ -1549,3 +1549,41 @@ section {
     position:relative;
     height:0;
 }
+
+
+
+
+/*Sectors */
+#sectors {
+  height: 50px;
+  width: 500px;
+  border: 2px solid #ECE28E;
+  overflow: hidden;
+  margin: 25px auto;
+}
+
+#box {
+  background: orange;
+  height: 50px;
+  width: 500px;
+  margin: 10px 400px;
+  -webkit-animation-name: move;
+  -webkit-animation-duration: 10s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: right;
+  -webkit-animation-timing-function: linear;
+  align-self: center;
+}
+
+#box:hover {
+  -webkit-animation-play-state: paused;
+}
+
+@-webkit-keyframes move {
+  0% {
+    margin-left: -400px;
+  }
+  100% {
+    margin-left: 800px;
+  }
+}
