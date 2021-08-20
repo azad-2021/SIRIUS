@@ -126,11 +126,11 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 15px;
-  background: rgba(233, 228, 219, 0.9);
+  background: rgba(255, 255, 255, 0.9);
 }
 /* Header background color */
 #header.header-scrolled, #header.header-inner-pages {
-  background: rgba(233, 228, 219, 0.9);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 #header .logo {
@@ -1104,91 +1104,6 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
-# Team
---------------------------------------------------------------*/
-.team {
-  background: #fff;
-  padding: 60px 0;
-}
-
-.team .member {
-  margin-bottom: 20px;
-  overflow: hidden;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-}
-
-.team .member .member-img {
-  position: relative;
-  overflow: hidden;
-}
-
-.team .member .social {
-  position: absolute;
-  left: 0;
-  bottom: 30px;
-  right: 0;
-  opacity: 0;
-  transition: ease-in-out 0.3s;
-  text-align: center;
-}
-
-.team .member .social a {
-  transition: color 0.3s;
-  color: #151515;
-  margin: 0 3px;
-  border-radius: 4px;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.8);
-  transition: ease-in-out 0.3s;
-  color: #484848;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.team .member .social a:hover {
-  color: #151515;
-  background: #ffc451;
-}
-
-.team .member .social i {
-  font-size: 18px;
-  line-height: 0;
-}
-
-.team .member .member-info {
-  padding: 25px 15px;
-}
-
-.team .member .member-info h4 {
-  font-weight: 700;
-  margin-bottom: 5px;
-  font-size: 18px;
-  color: #151515;
-}
-
-.team .member .member-info span {
-  display: block;
-  font-size: 13px;
-  font-weight: 400;
-  color: #aaaaaa;
-}
-
-.team .member .member-info p {
-  font-style: italic;
-  font-size: 14px;
-  line-height: 26px;
-  color: #777777;
-}
-
-.team .member:hover .social {
-  opacity: 1;
-  bottom: 15px;
-}
 
 /*--------------------------------------------------------------
 # Contact
@@ -1597,11 +1512,10 @@ section {
 .rw-sentence{
   margin: 0;
   text-align: left;
-  text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
 }
 
 .rw-sentence span{
-  color: #E4B52D;
+  color: #FFC451;
   white-space: nowrap;
   font-size: 200%;
   font-weight: normal;
@@ -1617,7 +1531,7 @@ section {
   opacity: 0;
   overflow: hidden;
   width: 100%;
-  color: #E4B52D;
+  color: #FFC451;
 }
 
 .rw-words-1 span{
@@ -1628,23 +1542,23 @@ section {
 }
 .rw-words span:nth-child(2) { 
   animation-delay: 3s; 
-  color: #E4B52D;
+  color: #FFC451;
 }
 .rw-words span:nth-child(3) { 
   animation-delay: 6s; 
-  color: #E4B52D; 
+  color: #FFC451; 
 }
 .rw-words span:nth-child(4) { 
   animation-delay: 9s; 
-  color: #E4B52D;
+  color: #FFC451;
 }
 .rw-words span:nth-child(5) { 
   animation-delay: 12s; 
-  color: #E4B52D;
+  color: #FFC451;
 }
 .rw-words span:nth-child(6) {  
   animation-delay: 15s; 
-  color: #E4B52D;
+  color: #FFC451;
 }
 
 
