@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <title>HTML</title>
-  <link rel="stylesheet" href="typewriter.css" type="text/css" />
-</head>
-
-<body>
-
-	      <script type="text/javascript">
+      <script type="text/javascript">
 
       // List of sentences
       var _CONTENT = [ "Security", "Automation", "Monitoring System"];
@@ -70,10 +59,3 @@
 
       </script>
   <!-- End of typewriter -->
-        <div id="container">
-          <h1>We Provide <span id="text"></span></h1>
-         
-        </div>
-</body>
-
-</html>
