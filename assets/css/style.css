@@ -1500,13 +1500,14 @@ section {
 .rw-wrapper{
   width: 90%;
   position: relative;
-  margin: 80px auto 0 auto;
+  margin: 10px auto 0 auto;
   font-family: 'Bree Serif';
   padding: 10px;
 }
 
 .rw-sentence{
   margin: 0;
+  position: fixed;
   text-align: left;
 }
 
@@ -1523,9 +1524,9 @@ section {
 }
 
 .rw-words span{
-  position: absolute;
+  position: fixed;
   opacity: 0;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   color: #FFC451;
 }
