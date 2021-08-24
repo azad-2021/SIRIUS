@@ -1602,3 +1602,27 @@ tr:nth-child(even) {
   padding: 15px;
   text-align: center;
 }
+
+.wrapper h2 {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 180%;
+}
+  
+.wrapper span::before {
+ content: "AUTOMATION";
+ animation: animate infinite 8s;
+ padding-left: 10px;
+}
+  
+@keyframes animate {
+  50% {
+     content: "MONITORING SYSTEM";
+     }
+  
+  100% {
+    content: "SECURITY SOLUTIONS";
+      }
+  
+ }
