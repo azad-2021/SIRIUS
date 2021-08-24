@@ -36,19 +36,26 @@
 <body>
 
   <!-- ======= Header ======= --> <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top ">
+   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-lg-between">
 
-     <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>
+      <!-- <h1 class="logo me-auto me-lg-0"><a href="index.html"><img src="assets/img/logo.png" alt="SIRIUS" width="100" height="135"></a></h1> -->
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="SIRIUS" class="img-fluid"></a>
 
       <nav id="navbar" class="navbar order-last order-lg-0">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <ul>
-          <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+          <li><a class="nav-link scrollto active" href="index.html">Home</a></li>
           <li><a class="nav-link scrollto" href="index.html">About</a></li>
-          <li><a class="nav-link scrollto" href="index.html">Clients</a></li>
-          <li><a class="nav-link scrollto" href="index.html">Sectors we serve</a></li>
-          <li><a class="nav-link scrollto" href="products.html">Products</a></li>
+          <li><a class="nav-link scrollto" href="clients.html">Clients</a></li>
+          <li class="dropdown"><a href="#"><span>Sectors we serve</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Banking</a></li>
+              <li><a href="railways.html">Railways</a></li>
+              <li><a href="#">Industries</a></li>
+              <li><a href="cmshc.html">CMS Health Care</a></li>
+            </ul>
+          <li><a class="nav-link scrollto " href="products.html">Products</a></li>
           <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="cms.html">Central Monitoring System</a></li>
@@ -58,10 +65,9 @@
           </li>
           <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
         </ul>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     
     </div>
   </header><!-- End Header -->
 
