@@ -1500,7 +1500,7 @@ section {
 .rw-wrapper{
   width: 90%;
   position: relative;
-  margin: 100px auto 0 auto;
+  margin: 10px auto 0 auto;
   font-family: 'Bree Serif';
   padding: 10px;
 }
@@ -1514,7 +1514,7 @@ section {
 .rw-sentence span{
   color: #FFC451;
   white-space: nowrap;
-  font-size: 180%;
+  font-size: 160%;
   font-weight: normal;
 }
 
@@ -1526,7 +1526,7 @@ section {
 .rw-words span{
   position: absolute;
   opacity: 0;
-  overflow: visible;
+  overflow: hidden;
   width: 100%;
   color: #FFC451;
 }
