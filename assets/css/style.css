@@ -1514,8 +1514,9 @@ section {
 .rw-sentence span{
   color: #FFC451;
   white-space: nowrap;
-  font-size: 160%;
+  font-size: 130%;
   font-weight: normal;
+  overflow: hidden;
 }
 
 .rw-words{
