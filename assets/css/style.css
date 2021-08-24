@@ -1607,11 +1607,11 @@ tr:nth-child(even) {
   display: flex;
   justify-content: center;
   color: white;
-  font-size: 180%;
+  font-size: 100%;
 }
   
 .wrapper p::before {
- content: "AUTOMATION";
+ content: "AUTOMATION SOLUTIONS";
  animation: animate infinite 8s;
  padding-left: 10px;
 }
