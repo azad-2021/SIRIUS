@@ -1610,7 +1610,7 @@ tr:nth-child(even) {
   font-size: 180%;
 }
   
-.wrapper span::before {
+.wrapper p::before {
  content: "AUTOMATION";
  animation: animate infinite 8s;
  padding-left: 10px;
