@@ -292,7 +292,7 @@ h1, h2, h3, h4, h5, h6 {
 * Mobile Navigation 
 */
 .mobile-nav-toggle {
-  color: #fff;
+  color: #FFC451;
   font-size: 28px;
   cursor: pointer;
   display: none;
@@ -1602,3 +1602,5 @@ tr:nth-child(even) {
   padding: 15px;
   text-align: center;
 }
+
+
