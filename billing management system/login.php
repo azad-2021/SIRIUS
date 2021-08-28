@@ -1,7 +1,6 @@
-https://www.javatpoint.com/php-mysql-login-system
 <html>  
 <head>  
-    <title>BMS login</title>  
+    <title> login</title>  
       
     <link rel = "stylesheet" type = "text/css" href = "style.css">   
 </head>  

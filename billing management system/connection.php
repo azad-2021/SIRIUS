@@ -1,8 +1,8 @@
 <?php      
     $host = "localhost";  
     $user = "root";  
-    $password = 'root@123';  
-    $db_name = "cyrus";  
+    $password = '';  
+    $db_name = "billing";  
       
     $con = mysqli_connect($host, $user, $password, $db_name);  
     if(mysqli_connect_errno()) {  
