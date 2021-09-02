@@ -4,44 +4,52 @@
 
   include 'connection.php';
 
-  $tid=2;
-  $queryTech="SELECT * FROM technician"; 
+  $UID=5;
+  $queryTech="SELECT * FROM employees"; 
   $resultTech=mysqli_query($con2,$queryTech);  //select all products
-  $queryTechnicianList= "SELECT * FROM technician inner join add_technician on technician.tid=add_technician.taid where add_technician.taid=$tid";
+  $queryTechnicianList= "SELECT * FROM employees inner join add_technician on employees.EmployeeCode=add_technician.TechnicianID where add_technician.EmployeeUID=$UID";
   $resultTechnicianList=mysqli_query($con2,$queryTechnicianList);
 
 
   if(isset($_POST['Addtech']))
   {
-    $tid=$_POST['tid'];
-    $querytechnician="SELECT * From technician where tid=$tid";
+    $EmployeeID=$_POST['EmployeeCode'];
+    $querytechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
     $resultTechnician=mysqli_query($con2,$querytechnician);
   }
 
 
     if(isset($_POST['Addtech']))
   {
-    $tid=$_POST['tid'];
+    $EmployeeID=$_POST['EmployeeCode'];
 
-    $queryCheckTechnician="SELECT * From technician where tid=$tid";
+    $queryCheckTechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
     $resultCheckTechnician=mysqli_query($con2,$queryCheckTechnician);
     $dataCheckTechnician=mysqli_fetch_assoc($resultCheckTechnician);
-    $tName = $dataCheckTechnician['tName'];
-    $tContact = $dataCheckTechnician['tContact'];
-    $tEmail = $dataCheckTechnician['tEmail'];
+    $TechnicianName = $dataCheckTechnician['Employee Name'];
+    $TechnicianContact = $dataCheckTechnician['Phone'];
+    $TechnicianCode = $dataCheckTechnician['Employee Code'];
 
-    echo $tName;
-    echo $tContact;
-    echo $tid;
-    echo $tEmail;
-
-      $queryAdd="INSERT INTO `add_technician` (`tanid`, `taid`, `taName`, `taContact`, `taEmail`) VALUES ('', '$tid', '$tName', $tContact, 'tEmail');";
-      mysqli_query($con2,$queryAdd);
-      if($queryAdd){
-        sleep(5);
-        echo "<meta http-equiv='refresh' content='0'>";
-      }  
+      $queryAdd="INSERT INTO `add_technician` (`tanid`, `EmployeeUID`, `TechnicianID`, `TechnicianName`, `TechnicianContact`, `TechnicianCode`) VALUES ('', '$UID', '$EmployeeID', '$TechnicianName', $TechnicianContact, 'TechnicianCode');";
+      mysqli_query($con2,$queryAdd);  
     }
 
 
+?>
+
+
+<?php if(isset($_POST['removeTechnician']))
+  {
+    $ttid=$_POST['ttid'];
+    $tid=$_POST['tid'];
+    $tCode= $_POST['tCode'];
+
+    $queryRemove="DELETE FROM `add_technician` WHERE  `TechnicianID`='$ttid' and `EmployeeUID`='$UID' and `TechnicianCode`='$tCode'";
+    $resultRemove=mysqli_query($con2,$queryRemove);
+    if($resultRemove){
+
+      //echo "<meta http-equiv='refresh' content='0'>";
+    echo 'success';
+    }
+  }
 ?>

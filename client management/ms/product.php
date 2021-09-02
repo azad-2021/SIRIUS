@@ -27,7 +27,8 @@
       $queryAdd="INSERT INTO `add_product`( `paRateID`, `paDiscription`, `paRate`, `order_id`, `paqty`) VALUES ('$paRateID','$paDiscription', '$paRate', '$oid', '$qty')";
       mysqli_query($con3,$queryAdd);
       if($queryAdd){
-        echo "<meta http-equiv='refresh' content='0'>";
+        //echo "<meta http-equiv='refresh' content='0'>";
+      echo 'success';
       }  
     }
 ?>

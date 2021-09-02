@@ -1,9 +1,16 @@
 <?php 
-  $oid=36;
+  //$pendingOID = $_GET['poid'];
+  $complaintID = $_GET['cpid'];
+  $Employeeid = $_GET['eid'];
+  $BranchCode = $_GET['brcode'];
   include 'connection.php';
   include 'technician.php';
   include 'estimate.php';
   include 'product.php';
+  include 'jobcard.php';
+
+
+
 
   /*
   $queryProduct="SELECT * FROM products"; 
@@ -60,38 +67,12 @@
 */
 
   /* file upload*/
-  if(isset($_FILES['image'])){
-    $errors= array();
-    $file_name = $_FILES['image']['name'];
-    $file_size =$_FILES['image']['size'];
-    $file_tmp =$_FILES['image']['tmp_name'];
-    $file_type=$_FILES['image']['type'];
-    $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
-              
-    $extensions= array("jpeg","jpg","pdf");
-              
-    if(in_array($file_ext,$extensions)=== false){
-      $errors[]="extension not allowed, please choose a JPEG or pdf file.";
-    }
-              
-    if($file_size > 2097152){
-      $errors[]='File size must be excately 2 MB';
-    }
-              
-    if(empty($errors)==true){
-      move_uploaded_file($file_tmp,"image/".$file_name);
-      echo "Success";
-    }else{
-    print_r($errors);
-    }
- }
+  echo $complaintID;
 
-  if(isset($_POST['material']) && 
-  $_POST['material'] == 'Yes') 
-  {
-     echo "Data submitted successfully.";
-  }
+
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -131,41 +112,30 @@
     <fieldset style="margin: 20px;">
 
       <!-- Job card section -->
-      <form action="" method="post"> 
+
+      
+      <form name="fileUpload" action = "" method = "POST" enctype = "multipart/form-data">
         <br>
         <div class="row">
           <div class="col-lg-2">
-            <label for="Name"><h5>Job card no:</h5></label>
+            <label><h5>Job card no:</h5></label>
+            </div>
+            <div class="col-lg-8">
+            <input type="text" class="form-control" name="jobcard">
           </div>
-          <div class="col-lg-8"> 
-            <input type="text" class="form-control" id="Name" name="Name">          
-          </div>
-        </div>
-      </form>
-      <!-- END of Job card section -->
-
-      <!-- Job card file upload section -->
-      <form action = "" method = "POST" enctype = "multipart/form-data">
-        <br>
         <legend>Upload Job Card File</legend>
+        
         <input type = "file" name = "image" />
-        <input value="Upload" type = "submit"/> 
-      </form>
-      <!-- END of Job card file upload section -->
-      <br>
 
-      <!-- Site Status Section -->
-      <div>
         <h5>Site:&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="status"
-          <?php if (isset($site) && $site=="TRUE") echo "checked";?>
-          value="status">&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="status"
-          <?php if (isset($site) && $site=="FALSE") echo "checked";?>
-          value="status">&nbsp;&nbsp;&nbsp;NOT OK
+        <input type="radio" name="site" id="site_status" value="1"/>
+        <label>OK</label>
         </h5>
       </div>
-      <!-- End of Site status section -->
+        <input value="Submit" type = "submit"/> 
+      </form>
+      <!-- END of Job section -->
+      <br>
     </fieldset>
 
 
@@ -192,19 +162,20 @@
             <form method="post" action="" class="form-inline">
                 <label for="exampleFormControlSelect2">Select Technician
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select  required name="tid" class="form-control" id="exampleFormControlSelect2" >
+                <select  required name="EmployeeCode" class="form-control" id="exampleFormControlSelect2" >
                   <?php
 
                      while($data=mysqli_fetch_assoc($resultTech)){
 
-                        echo "<option value=".$data['tid'].">".$data['tName']."</option>";
+                        echo "<option value=".$data['EmployeeCode'].">".$data['Employee Name']."</option>";
                       }  
                   ?>
                 </select>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="submit"  class=" btn btn-success" value="Add" name="Addtech"></input>
             </form>
-          </div> 
+          </div>
+          </div>  
 
           <div class="col-lg-12">
             <table class="table">
@@ -221,21 +192,23 @@
                 <?php while($data=mysqli_fetch_assoc($resultTechnicianList)){ ?>
                     <tr>
                       <td >
-                        <?php echo $itid =$data['tid']; ?>
+                        <?php echo $ttid =$data['TechnicianID']; ?>
                       </td>
                       <td >
-                         <?php echo $data['tName']; ?>
+                         <?php echo $data['TechnicianName']; ?>
                       </td>
                       <td >
-                        <?php echo $data['tContact']; ?>
+                        <?php echo $data['TechnicianCode']; ?>
                       </td>
                       <td >
-                        <?php echo $data['tEmail']; ?>
+                        <?php echo $data['TechnicianContact']; ?>
                       </td>
                       <td >
                       <td >
                           <form accept="" method="post">
-                            <input type="hidden" name="tid" value=" <?php echo $itid ?>">
+                            <input type="hidden" name="ttid" value=" <?php echo $ttid ?>">
+                            <input type="hidden" name="tid" value="<?php echo $tid ?>">
+                            <input type="hidden" name="tCode" value="<?php echo $data['TechnicianCode'] ?>">
                             <input type="submit" name="removeTechnician" value="Remove" class="btn btn-danger">
                           </form>
                       </td>
@@ -244,7 +217,7 @@
                 <?php } ?>
               </tbody>
             </table>
-          </div>     
+              
         <br><br>  
       </fieldset>
     </div>
@@ -294,6 +267,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="submit"  class=" btn btn-success" value="Add" name="Add"></input>
             </form>
+          </div>
           </div>      
 
           <div class="col-lg-12">
@@ -340,7 +314,7 @@
                 <?php } ?>
               </tbody>
             </table>
-          </div>
+          
           <br><br>  
         </fieldset>
       </div>
@@ -372,7 +346,7 @@
                 <input type="submit"  class=" btn btn-success" value="Add" name="AddEstimate"></input>
             </form>
           </div>      
-
+          </div>
           <div class="col-lg-12">
             <table class="table">
              <thead>
@@ -473,31 +447,3 @@
 </body>
 </html>
 
-
-<?php if(isset($_POST['removeProduct']))
-  {
-    $oid=$_POST['oid'];
-    $pid=$_POST['pid'];
-    $nid= $_POST['nid'];
-
-    $queryRemove="DELETE FROM `invoice_item` WHERE  `order_id`='$oid' and `nid`='$nid' and `pid`='$pid'";
-    $resultRemove=mysqli_query($con,$queryRemove);
-    if($resultRemove){
-
-      echo "<meta http-equiv='refresh' content='0'>";
-    }
-  }
-?>
-
-
-<?php if(isset($_POST['removeTechnician']))
-  {
-    $tid=$_POST['tid'];
-
-    $TqueryRemove="DELETE FROM `add_technician` WHERE  `taid`='$tid'";
-    $TRemove=mysqli_query($con2,$TqueryRemove);
-    if($TRemove){
-      echo "<meta http-equiv='refresh' content='0'>";
-    }
-  }
-?>

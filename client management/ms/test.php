@@ -1,41 +1,83 @@
 <?php 
+  
+  //$status = $_POST['site'];
+  //echo $status;
+  //$jobcard = '';
 
+  
+function getjobcard() {
+  if(isset($_POST['jobcard'])){
+    $jobcard = $_POST['jobcard'];
+    //echo $jobcard;
+     
+  }
+return $jobcard;
+}
 
+function getStatus() {
+  if(isset($_POST['site'])){
+    $status = $_POST['site'];
+    echo $status;
 
-  include 'connection.php';
-
-  $tid=7;
-  $queryTech="SELECT * FROM employees"; 
-  $resultTech=mysqli_query($con2,$queryTech);  //select all products
-  $queryTechnicianList= "SELECT * FROM employees inner join add_technician on employees.EmployeeCode=add_technician.TechnicianID where add_technician.tanid=$tid";
-  $resultTechnicianList=mysqli_query($con2,$queryTechnicianList);
-
-
-  if(isset($_POST['Addtech']))
-  {
-    $EmployeeID=$_POST['EmployeeCode'];
-    $querytechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
-    $resultTechnician=mysqli_query($con2,$querytechnician);
   }
 
+  if (empty($_POST['site'])) {
+    $status = 0;
+    echo $status;
+  }
+     
+return $status;
+}
 
-    if(isset($_POST['Addtech']))
-  {
-    $EmployeeID=$_POST['EmployeeCode'];
+ function approval() {
+  $card = getjobcard();
+  $siteStatus = getStatus();
+  echo $card; 
+  echo $siteStatus;
+}
 
-    $queryCheckTechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
-    $resultCheckTechnician=mysqli_query($con2,$queryCheckTechnician);
-    $dataCheckTechnician=mysqli_fetch_assoc($resultCheckTechnician);
-    $TechnicianName = $dataCheckTechnician['Employee Name'];
-    $TechnicianContact = $dataCheckTechnician['Phone'];
-    $TechnicianCode = $dataCheckTechnician['Employee Code'];
+approval();
 
-      $queryAdd="INSERT INTO `add_technician` (`tanid`, `TechnicianID`, `TechnicianName`, `TechnicianContact`, `TechnicianCode`) VALUES ('', '$EmployeeID', '$TechnicianName', $TechnicianContact, 'TechnicianCode');";
-      mysqli_query($con2,$queryAdd);
-      if($queryAdd){
-        echo "<meta http-equiv='refresh' content='0'>";
-      }  
+//getStatus();
+
+  if(isset($_FILES['image'])){
+    $errors= array();
+    $JOBCARD = getjobcard();
+    //echo $JOBCARD;
+    $file_name = $_FILES['image']['name'];
+    $file_name = 'data';
+    $file_size =$_FILES['image']['size'];
+    $file_tmp =$_FILES['image']['tmp_name'];
+    $file_type=$_FILES['image']['type'];
+    $tmp = explode('.', $_FILES['image']['name']);
+    $file_ext = strtolower(end($tmp));
+   // $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+    
+    $newfilename=$JOBCARD.".".$file_ext;         
+    $extensions= array("jpeg","jpg","pdf,");
+              
+    if(in_array($file_ext,$extensions)=== false){
+      $errors ='<script>alert("File must be JPG, JPEG or pdf")</script>';
     }
+              
+    if($file_size > 2097152){
+      $errors ='<script>alert("File must be less than 2MB")</script>';
+    }
+              
+    if(empty($errors)==true){
+    $JOBCARD = getjobcard();
+    //echo $JOBCARD;
+      move_uploaded_file($file_tmp,"image/".$newfilename);
+      echo '<script>alert("File Upload Success and job card no. is '.$JOBCARD.'")</script>';
+    }else{
+    print_r($errors);
+    }
+ }
+
+
+
+
+
 
 
 ?>
@@ -77,86 +119,32 @@
   <br>
   <div class="container">
 
-      <fieldset >
-        <legend>Add Technician</legend>
+      <!-- Job card section -->
+
+      
+      <form name="fileUpload" action = "" method = "POST" enctype = "multipart/form-data">
+        <br>
+        <div class="row">
+          <div class="col-lg-2">
+            <label><h5>Job card no:</h5></label>
+            </div>
+            <div class="col-lg-8">
+            <input type="text" class="form-control" name="jobcard">
+          </div>
+        <legend>Upload Job Card File</legend>
         
-          <div class="col-lg-12">
-            <form method="post" action="" class="form-inline">
-                <label for="exampleFormControlSelect2">Select Technician
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select  required name="EmployeeCode" class="form-control" id="exampleFormControlSelect2" >
-                  <?php
+        <input type = "file" name = "image" />
 
-                     while($data=mysqli_fetch_assoc($resultTech)){
-
-                        echo "<option value=".$data['EmployeeCode'].">".$data['Employee Name']."</option>";
-                      }  
-                  ?>
-                </select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="submit"  class=" btn btn-success" value="Add" name="Addtech"></input>
-            </form>
-          </div> 
-
-          <div class="col-lg-12">
-            <table class="table">
-             <thead>
-               <tr>
-                 <th scope="col">Id</th>
-                 <th scope="col">Name</th>
-                 <th scope="col">Contact Number</th>
-                 <th scope="col">E-mail</th>
-               </tr>
-             </thead>
-
-              <tbody>
-                <?php while($data=mysqli_fetch_assoc($resultTechnicianList)){ ?>
-                    <tr>
-                      <td >
-                        <?php echo $ttid =$data['TechnicianID']; ?>
-                      </td>
-                      <td >
-                         <?php echo $data['TechnicianName']; ?>
-                      </td>
-                      <td >
-                        <?php echo $data['TechnicianCode']; ?>
-                      </td>
-                      <td >
-                        <?php echo $data['TechnicianContact']; ?>
-                      </td>
-                      <td >
-                      <td >
-                          <form accept="" method="post">
-                            <input type="hidden" name="ttid" value=" <?php echo $ttid ?>">
-                            <input type="hidden" name="tid" value="<?php echo $tid ?>">
-                            <input type="hidden" name="tCode" value="<?php echo $data['TechnicianCode'] ?>">
-                            <input type="submit" name="removeTechnician" value="Remove" class="btn btn-danger">
-                          </form>
-                      </td>
-                    </tr>
-
-                <?php } ?>
-              </tbody>
-            </table>
-          </div>     
-        <br><br>  
-      </fieldset>
+        <h5>Site:&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="site" id="site_status" value="1"/>
+        <label>OK</label>
+        </h5>
+      </div>
+        <input value="Submit" type = "submit"/> 
+      </form>
+      <!-- END of Job section -->
+      <br>
   </div>
 </body>
 </html>
 
-<?php if(isset($_POST['removeTechnician']))
-  {
-    $ttid=$_POST['ttid'];
-    $tid=$_POST['tid'];
-    $tCode= $_POST['tCode'];
-
-    $queryRemove="DELETE FROM `add_technician` WHERE  `TechnicianID`='$ttid' and `tanid`='$tid' and `TechnicianCode`='$tCode'";
-    $resultRemove=mysqli_query($con3,$queryRemove);
-    if($resultRemove){
-
-      echo "<meta http-equiv='refresh' content='0'>";
-    }
-  }
-?>
-?>
