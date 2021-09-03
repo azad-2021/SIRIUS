@@ -6,7 +6,7 @@
   include 'connection.php';
   $queryProduct="SELECT * FROM rates"; 
   $resultProduct=mysqli_query($con3,$queryProduct);  //select all products
-  $queryProductList= "SELECT * FROM rates inner join add_product on rates.RateID=add_product.paRateID where add_product.order_id=$oid";
+  $queryProductList= "SELECT * FROM rates inner join add_product on rates.RateID=add_product.paRateID where add_product.paEmployeeID=$EmployeeUID";
   $resultProductList=mysqli_query($con3,$queryProductList);
 
 
@@ -24,11 +24,11 @@
     $paDiscription = $dataCheckStock['Discription'];
     $paRate = $dataCheckStock['Rate'];
 
-      $queryAdd="INSERT INTO `add_product`( `paRateID`, `paDiscription`, `paRate`, `order_id`, `paqty`) VALUES ('$paRateID','$paDiscription', '$paRate', '$oid', '$qty')";
+      $queryAdd="INSERT INTO `add_product`( `paRateID`, `paEmployeeID`, `paDiscription`, `paRate`, `order_id`, `paqty`) VALUES ('$paRateID', '$EmployeeUID', '$paDiscription', '$paRate', '$oid', '$qty')";
       mysqli_query($con3,$queryAdd);
       if($queryAdd){
-        //echo "<meta http-equiv='refresh' content='0'>";
-      echo 'success';
+        echo "<meta http-equiv='refresh' content='0'>";
+      //echo 'success';
       }  
     }
 ?>

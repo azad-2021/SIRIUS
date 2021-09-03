@@ -25,17 +25,8 @@ function getStatus() {
 return $status;
 }
 
-/*
-  function billingData() {
-    $queryCheckTechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
-    $resultCheckTechnician=mysqli_query($con2,$queryCheckTechnician);
-    $dataCheckTechnician=mysqli_fetch_assoc($resultCheckTechnician);
-    $TechnicianName = $dataCheckTechnician['Employee Name'];
-    $TechnicianContact = $dataCheckTechnician['Phone'];
-    $TechnicianCode = $dataCheckTechnician['Employee Code'];
 
-  }
-*/
+
 
   if(isset($_FILES['image'])){
     $errors= array();
@@ -67,39 +58,74 @@ return $status;
       move_uploaded_file($file_tmp,"image/".$newfilename);
       echo '<script>alert("File Upload Success and job card no. is '.$JOBCARD.'")</script>';
 
-  $card = getjobcard();
-  $siteStatus = getStatus();
-  echo $card; 
-  echo $siteStatus;
-/*
- $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`) VALUES ('$BranchCode','$complaintID','', '$card', '$siteStatus', '$Employeeid')";
-    mysqli_query($con2,$queryAdd);
-  if($queryAdd){
-    //echo "<meta http-equiv='refresh' content='0'>";
-    echo 'success';
-  }*/
+    $card = getjobcard();
+    $siteStatus = getStatus();
+    //echo $card; 
+      //echo $siteStatus;
+    /*
+     $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`) VALUES ('$BranchCode','$complaintID','', '$card', '$siteStatus', '$Employeeid')";
+        mysqli_query($con2,$queryAdd);
+      if($queryAdd){
+        //echo "<meta http-equiv='refresh' content='0'>";
+        echo 'success';
+      }*/
 
 
-  $queryTechnician="SELECT TechnicianID FROM add_technician"; 
-  $resultTechnician=mysqli_query($con2,$queryTechnician);  //select all products
-  //$dataTechnician=mysqli_fetch_assoc($resultTechnician);
-  //echo $dataTechnician;
-  while($data=mysqli_fetch_assoc($resultTechnician)){
-   echo $te = $data['TechnicianID'];
-    echo $te;
+    $queryTechnician="SELECT TechnicianID FROM add_technician"; 
+    $resultTechnician=mysqli_query($con2,$queryTechnician);  //select all products
+    //$dataTechnician=mysqli_fetch_assoc($resultTechnician);
+    //echo $dataTechnician;
+    while($data=mysqli_fetch_assoc($resultTechnician)){
+     echo $te = $data['TechnicianID'];
+      echo $te;
 
- $queryAdd="INSERT INTO `approval`( `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`) VALUES ('$BranchCode','$complaintID','', '$card', '$siteStatus', '$te')";
-    mysqli_query($con2,$queryAdd);
 
-  if($queryAdd){
-    //echo "<meta http-equiv='refresh' content='0'>";
-    echo 'success';
+    /* Insert Data into Approval database */
+    $queryAdd="INSERT INTO `approval`( `EmployeeUID`, `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`) VALUES ('$EmployeeUID', '$BranchCode','$complaintID','', '$card', '$siteStatus', '$te')";
+      mysqli_query($con2,$queryAdd);
+
+    if($queryAdd){
+      //echo "<meta http-equiv='refresh' content='0'>";
+      echo 'Approval success';
+    }
+
+
+    }
+
+
+    /* Approval Id fetch */
+
+    $queryApprovalID="SELECT ApprovalID FROM approval where EmployeeUID=$EmployeeUID";
+    $resultApprovalID=mysqli_query($con2,$queryApprovalID);
+    $dataApprovalID=mysqli_fetch_assoc($resultApprovalID);
+    $approvalID = $dataApprovalID['ApprovalID'];
+    //echo 'ApprovalID is: ';
+    //echo $approvalID;
+
+    /* Billing section */
+    $queryBilling="SELECT * FROM add_product where paEmployeeID=$EmployeeUID";
+    $resultBilling=mysqli_query($con3,$queryBilling);
+    $dataBilling=mysqli_fetch_assoc($resultBilling);
+    if (!empty($dataBilling)) {
+      
+      $RateID = $dataBilling['paRateID'];
+      $quantity = $dataBilling['paqty'];
+      $usedAs = 'Billing';
+      echo 'Billing data: ';
+      //echo $RateID;
+      //echo $quantity;
+
+      /* Insert Data into Billing database */
+      $queryAdd="INSERT INTO `pbills`( `ApprovalID`, `RateID`, `UsedAs`, `qty`) VALUES ('$approvalID', '$RateID','$usedAs', '$quantity')";
+      mysqli_query($con3,$queryAdd);
+
+      if($queryAdd){
+      //echo "<meta http-equiv='refresh' content='0'>";
+      echo 'Billing success ';
+      }
+    }
+
   }
-
-
-  }
-
- }
 }
 
 ?>

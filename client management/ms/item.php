@@ -1,13 +1,14 @@
 <?php 
   //$pendingOID = $_GET['poid'];
   $complaintID = $_GET['cpid'];
-  $Employeeid = $_GET['eid'];
+  $EmployeeUID = $_GET['eid'];
   $BranchCode = $_GET['brcode'];
   include 'connection.php';
   include 'technician.php';
   include 'estimate.php';
   include 'product.php';
   include 'jobcard.php';
+
 
 
 
@@ -34,7 +35,6 @@
         echo "<meta http-equiv='refresh' content='0'>";
       }  
     }
-  /*
   if(isset($_POST['calculation']))
   {
     $date=date('Y-m-d');
@@ -65,9 +65,6 @@
     echo $availableQty=$dataCalculation['qty']-$dataCalculation['QTY'];
   }
 */
-
-  /* file upload*/
-  echo $complaintID;
 
 
 
@@ -109,34 +106,7 @@
   <br>
   <div class="container">
     <legend style="text-align: center;">Enter Details</legend>
-    <fieldset style="margin: 20px;">
 
-      <!-- Job card section -->
-
-      
-      <form name="fileUpload" action = "" method = "POST" enctype = "multipart/form-data">
-        <br>
-        <div class="row">
-          <div class="col-lg-2">
-            <label><h5>Job card no:</h5></label>
-            </div>
-            <div class="col-lg-8">
-            <input type="text" class="form-control" name="jobcard">
-          </div>
-        <legend>Upload Job Card File</legend>
-        
-        <input type = "file" name = "image" />
-
-        <h5>Site:&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="site" id="site_status" value="1"/>
-        <label>OK</label>
-        </h5>
-      </div>
-        <input value="Submit" type = "submit"/> 
-      </form>
-      <!-- END of Job section -->
-      <br>
-    </fieldset>
 
 
 
@@ -394,6 +364,36 @@
           </div>
           <br><br>  
         </fieldset>
+
+
+            <fieldset style="margin: 20px;">
+
+      <!-- Job card section -->
+
+      
+      <form name="fileUpload" action = "" method = "POST" enctype = "multipart/form-data">
+        <br>
+        <div class="row">
+          <div class="col-lg-2">
+            <label><h5>Job card no:</h5></label>
+            </div>
+            <div class="col-lg-8">
+            <input type="text" class="form-control" name="jobcard">
+          </div>
+        <legend>Upload Job Card File</legend>
+        
+        <input type = "file" name = "image" />
+
+        <h5>Site:&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="site" id="site_status" value="1"/>
+        <label>OK</label>
+        </h5>
+      </div>
+        <input value="Submit" type = "submit"/> 
+      </form>
+      <br>
+    </fieldset>
+
       </div>
     </div>
 
@@ -435,12 +435,6 @@
 
       <label for="myCheck"><h5>More card: </h5></label> 
       <input type="checkbox" id="myCheck" onChange="this.form.submit()">
-    </div>
-
-
-
-    <div align="center">
-      <input type="submit" name="generate" class="btn-primary btn" value="Submit">
     </div>
 
   </div>

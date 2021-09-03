@@ -1,90 +1,76 @@
 <?php 
   
-  //$status = $_POST['site'];
-  //echo $status;
-  //$jobcard = '';
+  //$oid=$_GET['oid'];
+  $pendingOID = $_GET['poid'];
+  $card = $_GET['cardno'];
+  $complaintID = $_GET['cpid'];
+  $EmployeeUID = $_GET['eid'];
+  $BranchCode = $_GET['brcode'];
 
-  
-function getjobcard() {
-  if(isset($_POST['jobcard'])){
-    $jobcard = $_POST['jobcard'];
-    //echo $jobcard;
-     
-  }
-return $jobcard;
-}
 
-function getStatus() {
-  if(isset($_POST['site'])){
-    $status = $_POST['site'];
-    echo $status;
+  include 'connection.php';
+  $queryProduct="SELECT * FROM rates"; 
+  $resultProduct=mysqli_query($con3,$queryProduct);  //select all products
+  $queryProductList= "SELECT * FROM rates inner join add_product on rates.RateID=add_product.paRateID where add_product.paEmployeeID=$EmployeeUID";
+  $resultProductList=mysqli_query($con3,$queryProductList);
 
-  }
 
-  if (empty($_POST['site'])) {
-    $status = 0;
-    echo $status;
-  }
-     
-return $status;
-}
+  if(isset($_POST['Add']))
+  {
+    $RateID=$_POST['RateID'];
+    $qty=$_POST['qty'];
+    $queryCheckStock="SELECT * From rates where RateID=$RateID";
+    $resultCheckStock=mysqli_query($con3,$queryCheckStock);
+    $dataCheckStock=mysqli_fetch_assoc($resultCheckStock);
+    //$stockQTY= $dataCheckStock['qty'];
 
- function approval() {
-  $card = getjobcard();
-  $siteStatus = getStatus();
-  echo $card; 
-  echo $siteStatus;
-}
 
-approval();
+    $paRateID = $dataCheckStock['RateID'];
+    $paDiscription = $dataCheckStock['Discription'];
+    $paRate = $dataCheckStock['Rate'];
 
-//getStatus();
-
-  if(isset($_FILES['image'])){
-    $errors= array();
-    $JOBCARD = getjobcard();
-    //echo $JOBCARD;
-    $file_name = $_FILES['image']['name'];
-    $file_name = 'data';
-    $file_size =$_FILES['image']['size'];
-    $file_tmp =$_FILES['image']['tmp_name'];
-    $file_type=$_FILES['image']['type'];
-    $tmp = explode('.', $_FILES['image']['name']);
-    $file_ext = strtolower(end($tmp));
-   // $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
-    
-    $newfilename=$JOBCARD.".".$file_ext;         
-    $extensions= array("jpeg","jpg","pdf,");
-              
-    if(in_array($file_ext,$extensions)=== false){
-      $errors ='<script>alert("File must be JPG, JPEG or pdf")</script>';
+      $queryAdd="INSERT INTO `add_product`( `paRateID`, `paEmployeeID`, `paDiscription`, `paRate`, `order_id`, `paqty`) VALUES ('$paRateID', '$EmployeeUID', '$paDiscription', '$paRate', '$pendingOID', '$qty')";
+      mysqli_query($con3,$queryAdd);
+      if($queryAdd){
+        echo "<meta http-equiv='refresh' content='0'>";
+      //echo 'success';
+      }  
     }
-              
-    if($file_size > 2097152){
-      $errors ='<script>alert("File must be less than 2MB")</script>';
+
+      if(isset($_POST['submit'])){
+       if(isset($_POST['as']))
+      {
+      $site = $_POST['site'];
+        if ($site == 'OK') {
+          $siteStatus = 1;
+        }else{
+          $siteStatus = 0;
+        }
+
+      }
     }
-              
-    if(empty($errors)==true){
-    $JOBCARD = getjobcard();
-    //echo $JOBCARD;
-      move_uploaded_file($file_tmp,"image/".$newfilename);
-      echo '<script>alert("File Upload Success and job card no. is '.$JOBCARD.'")</script>';
-    }else{
-    print_r($errors);
+?>
+
+    <?php if(isset($_POST['removeProduct']))
+  {
+    $oid=$_POST['oid'];
+    $pid=$_POST['pid'];
+    $nid= $_POST['nid'];
+
+    $queryRemove="DELETE FROM `add_product` WHERE  `order_id`='$oid' and `paid`='$nid' and `paRateID`='$pid'";
+    $resultRemove=mysqli_query($con3,$queryRemove);
+    if($resultRemove){
+
+      echo "<meta http-equiv='refresh' content='0'>";
     }
- }
-
-
-
-
-
-
-
+  }
 ?>
 
 
 
-  <!DOCTYPE html>
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>test</title>
@@ -119,32 +105,117 @@ approval();
   <br>
   <div class="container">
 
-      <!-- Job card section -->
+        <fieldset >
+          <legend>Items</legend>
+          <div class="col-lg-12">
+            <form method="post" action="" class="form-inline">
+                <label for="exampleFormControlSelect2">Select Item</label>
+                <select  required name="RateID" class="form-control" id="exampleFormControlSelect2" >
+                  <?php
 
-      
-      <form name="fileUpload" action = "" method = "POST" enctype = "multipart/form-data">
-        <br>
-        <div class="row">
-          <div class="col-lg-2">
-            <label><h5>Job card no:</h5></label>
-            </div>
-            <div class="col-lg-8">
-            <input type="text" class="form-control" name="jobcard">
-          </div>
-        <legend>Upload Job Card File</legend>
-        
-        <input type = "file" name = "image" />
+                     while($data=mysqli_fetch_assoc($resultProduct)){
 
-        <h5>Site:&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="site" id="site_status" value="1"/>
-        <label>OK</label>
-        </h5>
+                        echo "<option value=".$data['RateID'].">".$data['Discription']."</option>"; 
+                      }  
+                  ?>
+                </select>
+                <label for="quantity">&nbsp;&nbsp;&nbsp;Quantity: &nbsp;&nbsp;</label>
+                <input type="text" required class="form-control" name="qty" id="qt">
+                <br>&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit"  class=" btn btn-success" value="Add" name="Add"></input>
+            </form>
+          </div>      
+
+          <div class="col-lg-12">
+            <table class="table">
+             <thead>
+               <tr>
+                 <th scope="col">Id</th>
+                 <th scope="col"> Product</th>
+                 <th scope="col">Uint Price</th>
+                 <th scope="col">Quantity</th>
+                 <th scope="col">Total Price</th>
+                 <th scope="col">Action</th>
+               </tr>
+             </thead>
+
+              <tbody>
+                <?php while($data=mysqli_fetch_assoc($resultProductList)){ ?>
+                    <tr>
+                      <td >
+                        <?php echo $ipid =$data['paRateID']; ?>
+                      </td>
+                      <td >
+                         <?php echo $data['paDiscription']; ?>
+                      </td>
+                      <td >
+                        <?php echo $data['paRate']; ?>
+                      </td>
+                      <td >
+                        <?php echo $data['paqty']; ?>
+                      </td>
+                      <td >
+                        <?php echo $data['paqty']* $data['paRate']; ?>
+                      </td>
+                      <td >
+                          <form accept="" method="post">
+                            <input type="hidden" name="pid" value=" <?php echo $ipid ?>">
+                            <input type="hidden" name="oid" value="<?php echo $oid ?>">
+                            <input type="hidden" name="nid" value="<?php echo $data['paid'] ?>">
+                            <input type="submit" name="removeProduct" value="Remove" class="btn btn-danger">
+                          </form>
+                      </td>
+                    </tr>
+
+                <?php } ?>
+              </tbody>
+            </table>
+          
+          <br><br>  
+        </fieldset>
       </div>
-        <input value="Submit" type = "submit"/> 
+    </div>
+      <form method="post" action="">
+
+        <h5 align="center">Material Consumed:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="as" id="as" value="billing">
+        <label for="billing">Billing</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="radio" id="as" name="as" value="waranty">
+        <label for="NO">Waranty</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="radio" id="as" name="as" value="asmc">
+        <label for="asmc">ASMC</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="radio" id="as" name="as" value="standby">
+        <label for="NO">Standby</label>
+        </h5>
+        <br>
+
+        <center>
+        <input type="submit"  class=" btn btn-success" value="submit" name="submit"></input>
+        </center>      
       </form>
-      <!-- END of Job section -->
+   <!-- END of Technician section -->
       <br>
   </div>
 </body>
 </html>
 
+
+<?php if(isset($_POST['removeTechnician']))
+  {
+    $ttid=$_POST['ttid'];
+    $tid=$_POST['tid'];
+    //$tCode= $_POST['tCode'];
+
+    $queryRemove="DELETE FROM `add_technician` WHERE  `TechnicianID`='$ttid' and `EmployeeUID`='$EmployeeUID'";
+    $resultRemove=mysqli_query($con2,$queryRemove);
+    if($resultRemove){
+
+      echo "<meta http-equiv='refresh' content='0'>";
+    //echo 'Technician deleted success';
+    }
+  }
+?>
