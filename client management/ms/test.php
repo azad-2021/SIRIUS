@@ -1,69 +1,104 @@
 <?php 
-  
-  //$oid=$_GET['oid'];
-  $pendingOID = $_GET['poid'];
+
+  $OID = $_GET['oid'];
   $card = $_GET['cardno'];
-  $complaintID = $_GET['cpid'];
+  $complaintID = $_GET['cid'];
   $EmployeeUID = $_GET['eid'];
   $BranchCode = $_GET['brcode'];
-
+  $Status = $_GET['site'];
+  $Date =  date("y/m/d");
 
   include 'connection.php';
-  $queryProduct="SELECT * FROM rates"; 
-  $resultProduct=mysqli_query($con3,$queryProduct);  //select all products
-  $queryProductList= "SELECT * FROM rates inner join add_product on rates.RateID=add_product.paRateID where add_product.paEmployeeID=$EmployeeUID";
-  $resultProductList=mysqli_query($con3,$queryProductList);
 
 
-  if(isset($_POST['Add']))
+  $queryTech="SELECT * FROM employees"; 
+  $resultTech=mysqli_query($con2,$queryTech);  //select all products
+  $queryTechnicianList= "SELECT * FROM employees inner join add_technician on employees.EmployeeCode=add_technician.TechnicianID where add_technician.EmployeeUID=$EmployeeUID";
+  $resultTechnicianList=mysqli_query($con2,$queryTechnicianList);
+
+
+  if(isset($_POST['Addtech']))
   {
-    $RateID=$_POST['RateID'];
-    $qty=$_POST['qty'];
-    $queryCheckStock="SELECT * From rates where RateID=$RateID";
-    $resultCheckStock=mysqli_query($con3,$queryCheckStock);
-    $dataCheckStock=mysqli_fetch_assoc($resultCheckStock);
-    //$stockQTY= $dataCheckStock['qty'];
+    $EmployeeID=$_POST['EmployeeCode'];
+    $querytechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
+    $resultTechnician=mysqli_query($con2,$querytechnician);
+  }
 
 
-    $paRateID = $dataCheckStock['RateID'];
-    $paDiscription = $dataCheckStock['Discription'];
-    $paRate = $dataCheckStock['Rate'];
+    if(isset($_POST['Addtech']))
+  {
+    $EmployeeID=$_POST['EmployeeCode'];
 
-      $queryAdd="INSERT INTO `add_product`( `paRateID`, `paEmployeeID`, `paDiscription`, `paRate`, `order_id`, `paqty`) VALUES ('$paRateID', '$EmployeeUID', '$paDiscription', '$paRate', '$pendingOID', '$qty')";
-      mysqli_query($con3,$queryAdd);
-      if($queryAdd){
+    $queryCheckTechnician="SELECT * From employees where EmployeeCode=$EmployeeID";
+    $resultCheckTechnician=mysqli_query($con2,$queryCheckTechnician);
+    $dataCheckTechnician=mysqli_fetch_assoc($resultCheckTechnician);
+    $TechnicianName = $dataCheckTechnician['Employee Name'];
+    $TechnicianContact = $dataCheckTechnician['Phone'];
+    $TechnicianCode = $dataCheckTechnician['Employee Code'];
+
+      $queryAddtech="INSERT INTO `add_technician` (`tanid`, `EmployeeUID`, `TechnicianID`, `TechnicianName`, `TechnicianContact`, `TechnicianCode`) VALUES ('', '$EmployeeUID', '$EmployeeID', '$TechnicianName', $TechnicianContact, 'TechnicianCode');";
+      mysqli_query($con2,$queryAddtech);
+
+      if($queryAddtech){
         echo "<meta http-equiv='refresh' content='0'>";
-      //echo 'success';
-      }  
+      }
+
     }
 
-      if(isset($_POST['submit'])){
-       if(isset($_POST['as']))
-      {
-      $site = $_POST['site'];
-        if ($site == 'OK') {
-          $siteStatus = 1;
+
+
+  if(isset($_POST['submit']))
+  {
+    $count = 1;
+    $queryTechnician="SELECT TechnicianID FROM add_technician"; 
+    $resultTechnician=mysqli_query($con2,$queryTechnician);  //select all products
+    //$dataTechnician=mysqli_fetch_assoc($resultTechnician);
+    //echo $dataTechnician;
+    while($data=mysqli_fetch_assoc($resultTechnician)){
+     $te = $data['TechnicianID'];
+      //echo $te;
+    
+    //$app = strval($count);
+    // echo $app;
+     //echo var_dump($app);
+     //$ne = strval($count);
+    $jobcard = $card .=$count;
+
+
+     echo $jobcard;
+ /* Insert Data into Approval database */
+    $queryAdd="INSERT INTO `approval`( `EmployeeUID`, `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`, `VisitDate`) VALUES ('$EmployeeUID', '$BranchCode','$complaintID','$OID', '$jobcard', '$Status', '$te', '$Date')";
+      mysqli_query($con2,$queryAdd);
+    $count = $count+1;
+
+    }
+
+    $queryRemove="DELETE FROM `add_technician` WHERE `EmployeeUID`='$EmployeeUID'";
+    $resultRemove=mysqli_query($con2,$queryRemove);
+
+    if(isset($_POST['material'])){
+      $material = $_POST['material'];
+  
+    if(isset($_POST['more'])){
+      $more = $_POST['more'];
+
+     if ($more == 'YES' and $material== 'YES') {
+      //echo $more;
+      //echo $material;
+         header("location:product.php?cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&oid=$OID");
         }else{
-          $siteStatus = 0;
+         //header("location:/html/?cpid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode");
         }
 
       }
     }
-?>
 
-    <?php if(isset($_POST['removeProduct']))
-  {
-    $oid=$_POST['oid'];
-    $pid=$_POST['pid'];
-    $nid= $_POST['nid'];
-
-    $queryRemove="DELETE FROM `add_product` WHERE  `order_id`='$oid' and `paid`='$nid' and `paRateID`='$pid'";
-    $resultRemove=mysqli_query($con3,$queryRemove);
-    if($resultRemove){
-
-      echo "<meta http-equiv='refresh' content='0'>";
-    }
   }
+
+
+
+
+
 ?>
 
 
@@ -73,7 +108,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>test</title>
+  <title>Add Technician</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -105,65 +140,61 @@
   <br>
   <div class="container">
 
-        <fieldset >
-          <legend>Items</legend>
+    <!-- Add technician Section -->
+      <fieldset >
+        <legend>Add Technician</legend>
+        
           <div class="col-lg-12">
             <form method="post" action="" class="form-inline">
-                <label for="exampleFormControlSelect2">Select Item</label>
-                <select  required name="RateID" class="form-control" id="exampleFormControlSelect2" >
+                <label for="exampleFormControlSelect2">Select Technician
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <select  required name="EmployeeCode" class="form-control" id="exampleFormControlSelect2" >
                   <?php
 
-                     while($data=mysqli_fetch_assoc($resultProduct)){
+                     while($data=mysqli_fetch_assoc($resultTech)){
 
-                        echo "<option value=".$data['RateID'].">".$data['Discription']."</option>"; 
+                        echo "<option value=".$data['EmployeeCode'].">".$data['Employee Name']."</option>";
                       }  
                   ?>
                 </select>
-                <label for="quantity">&nbsp;&nbsp;&nbsp;Quantity: &nbsp;&nbsp;</label>
-                <input type="text" required class="form-control" name="qty" id="qt">
-                <br>&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="submit"  class=" btn btn-success" value="Add" name="Add"></input>
+                <input type="submit"  class=" btn btn-success" value="Add" name="Addtech"></input>
             </form>
-          </div>      
+          </div>  
 
           <div class="col-lg-12">
             <table class="table">
              <thead>
                <tr>
                  <th scope="col">Id</th>
-                 <th scope="col"> Product</th>
-                 <th scope="col">Uint Price</th>
-                 <th scope="col">Quantity</th>
-                 <th scope="col">Total Price</th>
-                 <th scope="col">Action</th>
+                 <th scope="col">Name</th>
+                 <th scope="col">Contact Number</th>
+                 <th scope="col">E-mail</th>
                </tr>
              </thead>
 
               <tbody>
-                <?php while($data=mysqli_fetch_assoc($resultProductList)){ ?>
+                <?php while($data=mysqli_fetch_assoc($resultTechnicianList)){ ?>
                     <tr>
                       <td >
-                        <?php echo $ipid =$data['paRateID']; ?>
+                        <?php echo $ttid =$data['TechnicianID']; ?>
                       </td>
                       <td >
-                         <?php echo $data['paDiscription']; ?>
+                         <?php echo $data['TechnicianName']; ?>
                       </td>
                       <td >
-                        <?php echo $data['paRate']; ?>
+                        <?php echo $data['TechnicianCode']; ?>
                       </td>
                       <td >
-                        <?php echo $data['paqty']; ?>
+                        <?php echo $data['TechnicianContact']; ?>
                       </td>
                       <td >
-                        <?php echo $data['paqty']* $data['paRate']; ?>
-                      </td>
                       <td >
                           <form accept="" method="post">
-                            <input type="hidden" name="pid" value=" <?php echo $ipid ?>">
-                            <input type="hidden" name="oid" value="<?php echo $oid ?>">
-                            <input type="hidden" name="nid" value="<?php echo $data['paid'] ?>">
-                            <input type="submit" name="removeProduct" value="Remove" class="btn btn-danger">
+                            <input type="hidden" name="ttid" value=" <?php echo $ttid ?>">
+                            <input type="hidden" name="tid" value="<?php echo $tid ?>">
+                            <input type="hidden" name="tCode" value="<?php echo $data['TechnicianCode'] ?>">
+                            <input type="submit" name="removeTechnician" value="Remove" class="btn btn-danger">
                           </form>
                       </td>
                     </tr>
@@ -171,28 +202,28 @@
                 <?php } ?>
               </tbody>
             </table>
-          
-          <br><br>  
-        </fieldset>
-      </div>
-    </div>
+              
+        <br><br>  
+      </fieldset>
       <form method="post" action="">
 
         <h5 align="center">Material Consumed:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="as" id="as" value="billing">
-        <label for="billing">Billing</label>
+        <input type="radio" name="material" id="material" value="YES">
+        <label for="OK">Yes</label>
         &nbsp;&nbsp;&nbsp;
-        <input type="radio" id="as" name="as" value="waranty">
-        <label for="NO">Waranty</label>
-        &nbsp;&nbsp;&nbsp;
-        <input type="radio" id="as" name="as" value="asmc">
-        <label for="asmc">ASMC</label>
-        &nbsp;&nbsp;&nbsp;
-        <input type="radio" id="as" name="as" value="standby">
-        <label for="NO">Standby</label>
+        <input type="radio" id="material" name="material" value="NO">
+        <label for="NOT OK">No</label>
         </h5>
         <br>
 
+        <h5 align="center">More Cards:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="more" id="more" value="YES">
+        <label for="YES">YES</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="radio" id="more" name="more" value="NO">
+        <label for="NO">NO</label>
+        </h5>
+        <br>
         <center>
         <input type="submit"  class=" btn btn-success" value="submit" name="submit"></input>
         </center>      

@@ -1,14 +1,16 @@
 <?php 
 
-  $pendingOID = $_GET['poid'];
+  $OID = $_GET['oid'];
   $card = $_GET['cardno'];
-  $complaintID = $_GET['cpid'];
+  $complaintID = $_GET['cid'];
   $EmployeeUID = $_GET['eid'];
   $BranchCode = $_GET['brcode'];
+  $Status = $_GET['site'];
+  $Date =  date("y/m/d");
 
   include 'connection.php';
 
-  //$UID=5;
+
   $queryTech="SELECT * FROM employees"; 
   $resultTech=mysqli_query($con2,$queryTech);  //select all products
   $queryTechnicianList= "SELECT * FROM employees inner join add_technician on employees.EmployeeCode=add_technician.TechnicianID where add_technician.EmployeeUID=$EmployeeUID";
@@ -43,25 +45,11 @@
 
     }
 
-    function site(){
-      if(isset($_POST['site'])){
-        $site = $_POST['site'];
-        if ($site == 'OK') {
-          $siteStatus = 1;
-        }else{
-          $siteStatus = 0;
-        }
-        return $siteStatus;
-      }
-    }
-
-    $Status = site();
-
 
 
   if(isset($_POST['submit']))
   {
-    
+    $count = 1;
     $queryTechnician="SELECT TechnicianID FROM add_technician"; 
     $resultTechnician=mysqli_query($con2,$queryTechnician);  //select all products
     //$dataTechnician=mysqli_fetch_assoc($resultTechnician);
@@ -69,26 +57,38 @@
     while($data=mysqli_fetch_assoc($resultTechnician)){
      $te = $data['TechnicianID'];
       //echo $te;
+    
+    //$app = strval($count);
+    // echo $app;
+     //echo var_dump($app);
+     //$ne = strval($count);
+    $jobcard = $card .=$count;
 
 
-    /* Insert Data into Approval database */
-    $queryAdd="INSERT INTO `approval`( `EmployeeUID`, `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`) VALUES ('$EmployeeUID', '$BranchCode','$complaintID','', '$card', '$Status', '$te')";
+     echo $jobcard;
+ /* Insert Data into Approval database */
+    $queryAdd="INSERT INTO `approval`( `EmployeeUID`, `BranchCode`, `ComplaintID`, `OrderID`, `JobCardNo`, `Status`, `EmployeeID`, `VisitDate`) VALUES ('$EmployeeUID', '$BranchCode','$complaintID','$OID', '$jobcard', '$Status', '$te', '$Date')";
       mysqli_query($con2,$queryAdd);
+    $count = $count+1;
+
     }
 
     $queryRemove="DELETE FROM `add_technician` WHERE `EmployeeUID`='$EmployeeUID'";
     $resultRemove=mysqli_query($con2,$queryRemove);
-    
-    if(isset($_POST['material'])){
-      $site = $_POST['material'];
-         if ($site == 'YES') {
-          header("location:test.php?cpid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&poid=$pendingOID");
-        }else{
-         header("location:card.php?cpid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode");
-        }
-      }
 
-  }
+    if(isset($_POST['more'])){
+      $more = $_POST['more'];
+
+     if ($more == 'YES') {
+      //echo $more;
+      //echo $material;
+         header("location:card.php?cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&oid=$OID");
+        }else{
+         header("location:pro.php?cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&oid=$OID");
+        }
+
+      }
+    }
 
 
 
@@ -103,7 +103,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>test</title>
+  <title>Add Technician</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -201,26 +201,24 @@
         <br><br>  
       </fieldset>
       <form method="post" action="">
-
+<!--
         <h5 align="center">Material Consumed:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="radio" name="material" id="material" value="YES">
-        <label for="YES">YES</label>
+        <label for="OK">Yes</label>
         &nbsp;&nbsp;&nbsp;
         <input type="radio" id="material" name="material" value="NO">
+        <label for="NOT OK">No</label>
+        </h5>
+        <br>
+-->
+        <h5 align="center">More Cards:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="more" id="more" value="YES">
+        <label for="YES">YES</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="radio" id="more" name="more" value="NO">
         <label for="NO">NO</label>
         </h5>
         <br>
-
-
-        <h5 align="center">Site Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="site" id="site" value="OK">
-        <label for="OK">OK</label>
-        &nbsp;&nbsp;&nbsp;
-        <input type="radio" id="site" name="site" value="NOT OK">
-        <label for="NOT OK">Not OK</label>
-        </h5>
-        <br>
-
         <center>
         <input type="submit"  class=" btn btn-success" value="submit" name="submit"></input>
         </center>      
