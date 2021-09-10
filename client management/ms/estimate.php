@@ -5,13 +5,13 @@
   $complaintID = $_GET['cid'];
   $EmployeeUID = $_GET['eid'];
   $BranchCode = $_GET['brcode'];
+  $approvalID = $_GET['apid'];
   $Date =  date("d/m/y"); 
   
   $queryEstimate="SELECT * FROM rates"; 
   $resultEstimate=mysqli_query($con3,$queryEstimate);  //select all products
   $queryEstimateList= "SELECT * FROM rates inner join add_estimate on rates.RateID=add_estimate.peRateID where add_estimate.EmployeeUID=$EmployeeUID";
   $resultEstimateList=mysqli_query($con3,$queryEstimateList);
-
 
   if(isset($_POST['AddEstimate']))
   {
@@ -30,6 +30,25 @@
       echo "<meta http-equiv='refresh' content='0'>";
     }  
   }
+
+  if(isset($_POST['submit'])){
+
+    $queryAddEstimate="SELECT * FROM add_estimate WHERE EmployeeUID = $EmployeeUID"; 
+    $resultAddEstimate=mysqli_query($con3,$queryAddEstimate);
+    while($dataEstimate=mysqli_fetch_assoc($resultAddEstimate)){ 
+      $RateID = $dataEstimate['peRateID'];
+      $Quantity = $dataEstimate['peqty'];
+      $query = "INSERT INTO `estimates`(`ApprovalID`, `RateID`, `Qty`) VALUES ('$approvalID', '$RateID', '$Quantity')";
+      mysqli_query($con3,$query);
+    }
+      $queryRemove="DELETE FROM `add_estimate` WHERE `EmployeeUID`='$EmployeeUID'";
+      $resultRemove=mysqli_query($con3,$queryRemove);
+      if($resultRemove){
+        header("location:invoice.php?oid=$OID&cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&apid=$approvalID");
+      //echo "<meta http-equiv='refresh' content='0'>";
+    }
+
+  } 
 ?>
 
 
@@ -131,7 +150,12 @@
             </tbody>
           </table>
         </div>
-        <br><br>  
+        <br><br>
+        <form method="post" action="">
+          <center>
+            <input type="submit"  class=" btn btn-success" value="submit" name="submit"></input>
+          </center>
+      </form>  
       </fieldset>
     </div>
     <script src="assets/js/jquery.min.js"></script>

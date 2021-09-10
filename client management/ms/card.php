@@ -41,7 +41,7 @@
     $tmp = explode('.', $_FILES['image']['name']);
     $file_ext = strtolower(end($tmp));    
     $newfilename=$JOBCARD.".".$file_ext;         
-    $extensions= array("jpeg","jpg","pdf,");
+    $extensions= array("jpeg","jpg","pdf");
               
     if(in_array($file_ext,$extensions)=== false){
       $errors ='<script>alert("File must be JPG, JPEG or pdf")</script>';

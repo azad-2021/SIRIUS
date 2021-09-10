@@ -1,23 +1,20 @@
-<?php 
-  include 'connection.php';
+<?php
+
+  include 'ms/connection.php';
 
   $OID = $_GET['oid'];
   $complaintID = $_GET['cid'];
-  $EmployeeUID = $_GET['eid'];
+  $UID = $_GET['eid'];
   $BranchCode = $_GET['brcode'];
   $approvalID = $_GET['apid'];
- 
-  $queryName="SELECT * FROM employees where EmployeeCode=$EmployeeUID";
-  $resultName=mysqli_query($con2,$queryName);
-  $dataName=mysqli_fetch_assoc($resultName);
-  $name = $dataName['Employee Name'];
+  
 
   if(isset($_POST['submit'])){
     $estimate = $_POST['estimate'];
     if ($estimate =='YES') {
-      header("location:estimate.php?cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&oid=$OID&apid=$approvalID");
+      header("location:ms/estimate.php?cid=$complaintID&eid=$UID&brcode=$BranchCode&oid=$OID&apid=$approvalID");
     }else{
-      include 'home.php';
+        header("location:redirect.php?eid=$UID");
     }
   }
 ?>
@@ -49,6 +46,7 @@
         margin: 5px;
       }
     </style>
+
   </head>
 
   <body>
@@ -57,13 +55,13 @@
       <fieldset>
         <form method="post" action="">
           <h5 align="center">Estimate Given:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="estimate" id="estimate" value="YES">
-          <label for="OK">Yes</label>
-          &nbsp;&nbsp;&nbsp;
-          <input type="radio" id="estimate" name="estimate" value="NO">
-          <label for="NOT OK">No</label>
+            <input type="radio" name="estimate" id="estimate" value="YES">
+            <label for="OK">Yes</label>
+            &nbsp;&nbsp;&nbsp;
+            <input type="radio" id="estimate" name="estimate" value="NO">
+            <label for="NOT OK">No</label>
           </h5>
-          <br><br>
+          <br> <br>
           <center>
           <input type="submit"  class=" btn btn-success" value="submit" name="submit"></input>
           </center>      
