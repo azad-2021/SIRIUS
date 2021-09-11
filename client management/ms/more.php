@@ -51,8 +51,9 @@
     <br><br>
     <div class="container">
       <fieldset>
+        <br><br>
         <form method="post" action="">
-          <h5 align="center">More cards:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 align="center">More cards:<br><br>
             <input type="radio" name="more" id="more" value="YES">
             <label for="YES">Yes</label>
             &nbsp;&nbsp;&nbsp;
@@ -64,6 +65,7 @@
           <input type="submit"  class=" btn btn-success" value="submit" name="submit"></input>
           </center>      
         </form>
+        <br>
       </fieldset>
     </div>
   </body>

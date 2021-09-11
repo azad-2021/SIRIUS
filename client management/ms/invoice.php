@@ -109,6 +109,8 @@ $BankName = $dataBankName['BankName'];
 		.text-right {
 			text-align:right;
 		}
+
+
 		
 		</style>
 		  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -119,7 +121,7 @@ $BankName = $dataBankName['BankName'];
 	<body  onload="window.print()">
 		<div class="container" align="center">
 			<h1><img src="/html/cyrus logo.png" alt="Cyrus Electronics Pvt. Ltd." style="width:50px;height:60px;">
-			Cyrus Electronics Pvt. Ltd.</h1>
+			<strong>Cyrus Electronics Pvt. Ltd.</strong></h1>
 		</div>
 		<br>
 		<div class="container">
@@ -212,6 +214,7 @@ $BankName = $dataBankName['BankName'];
 			</p>
 		</div>
 		<center>
+			<br><br>
 			<p style="font-size: 10px;"><strong>Cyrus house, B 44/69 Sector Q, Aliganj, Lucknow-24 Ph. (0522)274916, 2374190</strong></p>
 		</center>
 		</div>

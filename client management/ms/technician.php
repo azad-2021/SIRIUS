@@ -84,6 +84,10 @@
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="datatable/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+        <style type="text/css">
     <style>
       fieldset {
         background-color: #eeeeee;
@@ -124,8 +128,8 @@
               <input type="submit"  class=" btn btn-success" value="Add" name="Addtech"></input>
             </form>
           </div>  
-          <div class="col-lg-12">
-            <table class="table">
+          <div class="col-lg-12 table-responsive">
+            <table id="userTable2" class="display nowrap table-striped table-hover table-sm" id="exampleFormControlSelect2" class="form-control">
               <thead>
                 <tr>
                   <th scope="col">Id</th>
@@ -179,7 +183,26 @@
             <br>
           </div>
       </fieldset>
-    </div>  
+    </div> 
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/popper.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js
+"></script>
+
+    <script type="text/javascript">
+      
+        $(document).ready(function() {
+             var table = $('#userTable2').DataTable( {
+                rowReorder: {
+                selector: 'td:nth-child(2)'
+                },
+                responsive: true
+            } );
+        } );
+    </script> 
   </body>
 </html>
 

@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Add Technician</title>
+    <title>Add Estimate</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -53,8 +53,9 @@
     <br><br>
     <div class="container">
       <fieldset>
+        <br><br>
         <form method="post" action="">
-          <h5 align="center">Estimate Given:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 align="center">Estimate Given:<br><br>
             <input type="radio" name="estimate" id="estimate" value="YES">
             <label for="OK">Yes</label>
             &nbsp;&nbsp;&nbsp;

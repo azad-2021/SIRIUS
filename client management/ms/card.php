@@ -30,11 +30,12 @@
   $Status = site();
 
   if(isset($_FILES['image'])){
-    $errors= array();
+    $AddTech = $_POST['addTech'];
+    $errors= '';
     $JOBCARD = getjobcard();
     //echo $JOBCARD;
     $file_name = $_FILES['image']['name'];
-    $file_name = 'data';
+    //$file_name = 'data';
     $file_size =$_FILES['image']['size'];
     $file_tmp =$_FILES['image']['tmp_name'];
     $file_type=$_FILES['image']['type'];
@@ -42,12 +43,10 @@
     $file_ext = strtolower(end($tmp));    
     $newfilename=$JOBCARD.".".$file_ext;         
     $extensions= array("jpeg","jpg","pdf");
-              
+    //echo $file_size;       
     if(in_array($file_ext,$extensions)=== false){
       $errors ='<script>alert("File must be JPG, JPEG or pdf")</script>';
-    }
-              
-    if($file_size > 2097152){
+    }elseif($file_size > 2097152){
       $errors ='<script>alert("File must be less than 2MB")</script>';
     }
               
@@ -60,18 +59,16 @@
       mysqli_query($con2,$queryAdd);
 
       echo '<script>alert("File Upload Success and job card no. is '.$JOBCARD.'")</script>';
-    }else{
-    print_r($errors);
-    }
 
-    if(isset($_POST['addTech'])){
-      $AddTech = $_POST['addTech'];
+
       //echo $AddTech;
       if ($AddTech=='YES') {
         header("location:technician.php?cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&cardno=$JOBCARD&oid=$OID&site=$Status");
       }else{
           header("location:more.php?cid=$complaintID&eid=$EmployeeUID&brcode=$BranchCode&oid=$OID");
       }
+    }else{
+    print_r($errors);
     }
   }
 ?>

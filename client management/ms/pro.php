@@ -52,11 +52,12 @@
     <br><br>
     <div class="container">
       <fieldset>
+        <br><br>
         <form method="post" action="">
-          <h5 align="center">Material Consumed:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <h5 align="center">Material Consumed:<br><br><br>
             <input type="radio" name="material" id="material" value="YES">
             <label for="OK">Yes</label>
-            &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" id="material" name="material" value="NO">
             <label for="NOT OK">No</label>
           </h5>
@@ -67,5 +68,8 @@
         </form>
       </fieldset>
     </div>
+        <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/popper.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

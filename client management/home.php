@@ -13,12 +13,23 @@
         <!-- Custom styles for this template -->
         <link href="style.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="datatable/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+        <style type="text/css">
+        .border {
+        border:5px solid Black;
+        padding:5px;
+        }
+        table, th, td {
+  border:1px solid black;
+}
+        </style>
     </head>
     <body>
         
 
         <div class="container" style="resize: both;">
-            <table class="table-bordered table-striped table-hover table-sm" id="userTable">
+            <table class="table-hover table-sm border" id="example" class="display nowrap">
                 <h4 class="font-weight-bold text-center text-xl-center">Total pending work report for <?php  print "$name"; ?> </h4>
                 <thead> 
                     <tr> 
@@ -55,7 +66,8 @@
         			?>
                 </tbody>                 
             </table>
-            <table class="table table-bordered table-striped table-hover table-sm" id="userTable2">
+            <br>
+            <table class="table-striped table-hover table-sm" id="userTable2" class="display nowrap">
                 <h4 class="font-weight-bold text-center text-xl-center">Total pending AMC </h4>
                 <thead> 
                     <tr> 
@@ -97,7 +109,8 @@
         			?>
                 </tbody>                 
             </table>
-            <table class="table table-bordered table-striped table-hover table-sm" id="userTable3">
+            <br>
+            <table class="table-striped table-hover table-sm" id="userTable3" class="display nowrap">
                 <h4 class="font-weight-bold text-center text-xl-center">Total pending Orders </h4>
                 <thead> 
                     <tr> 
@@ -136,7 +149,8 @@
         			?>
                 </tbody>                 
             </table>
-            <table class="table table-bordered table-striped table-hover table-sm" id="userTable4">
+            <br>
+            <table class="table-striped table-hover table-sm" id="userTable4" class="display nowrap">
                 <h4 class="font-weight-bold text-center text-xl-center">Total pending Complaints </h4>
                 <thead> 
                     <tr> 
@@ -182,19 +196,46 @@
         <script src="assets/js/popper.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="//cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function() {
-            $('#userTable').DataTable();
-            });
-            $(document).ready(function() {
-            $('#userTable2').DataTable();
-            });
-            $(document).ready(function() {
-            $('#userTable3').DataTable();
-            });
-            $(document).ready(function() {
-            $('#userTable4').DataTable();
-            });
-        </script>
-    </body>
+        <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js
+"></script>
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable( {
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                responsive: true
+            } );
+        } );
+
+        $(document).ready(function() {
+             var table = $('#userTable2').DataTable( {
+                rowReorder: {
+                selector: 'td:nth-child(2)'
+                },
+                responsive: true
+            } );
+        } );
+          
+        $(document).ready(function() {
+        var table = $('#userTable3').DataTable( {
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+                },
+                responsive: true
+            } );
+        } );
+         
+        $(document).ready(function() {
+        var table = $('#userTable4').DataTable( {
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
+            responsive: true
+            } );
+        } );
+    </script>
+</body>
 </html>
